@@ -1,0 +1,13 @@
+version: "3" # composeファイルのバージョン
+services: 
+    goapp: # サービス名
+        build: 
+          context: . #カレントなワーキングディレクトリ
+          dockerfile: build/Dockerfile # ビルドに使うDockerfileの場所
+        image: api_test #イメージの指定
+        container_name: "api_test" #コンテナ名の指定
+        tty: true # コンテナの永続化
+        ports: # ホストOSのポートとコンテナのポートをつなげる 
+            - "8080:8080"
+        volumes:
+            - ./cmd:/go/src/app # マウントディレクトリ
