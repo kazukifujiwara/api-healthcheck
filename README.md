@@ -101,6 +101,7 @@ csvtestディレクトリ内で go run main.go 実行時にcsvファイルを読
 
 ## TODO
 
+* index.html内のGETリクエストを実行している箇所のURI指定方法の修正
 * リファクタリング
 * Readme整理
 
