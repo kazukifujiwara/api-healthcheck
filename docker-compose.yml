@@ -1,13 +1,44 @@
 version: "3" # composeファイルのバージョン
 services: 
-    goapp: # サービス名
+    go_app: # サービス名
         build: 
           context: . #カレントなワーキングディレクトリ
           dockerfile: build/Dockerfile # ビルドに使うDockerfileの場所
         image: api_test #イメージの指定
-        container_name: "api_test" #コンテナ名の指定
+        container_name: "api_check_go" #コンテナ名の指定
         tty: true # コンテナの永続化
         ports: # ホストOSのポートとコンテナのポートをつなげる 
             - "8080:8080"
         volumes:
             - ./cmd:/go/src/app # マウントディレクトリ
+        networks:  # go_appとpython_appを接続するための共通ネットワーク指定
+            - api_net
+
+    python_app:
+        build: ./flask_app
+        volumes:
+            - ./flask_app/src:/app
+            - socket:/tmp
+        container_name: "api_check_python"
+        command: uwsgi --ini /app/app.ini
+        depends_on:  # go_appサーバーが立ってから起動
+            - go_app
+        networks:  # go_appとpython_appを接続するための共通ネットワーク指定
+            - api_net
+
+    web:
+        image: nginx:latest
+        ports:
+            - "81:81"
+        volumes:
+            - ./web/nginx.conf:/etc/nginx/conf.d/default.conf
+            - socket:/tmp
+        depends_on:
+            - python_app
+
+volumes:
+  socket:
+
+networks:
+  api_net:
+    driver: bridge

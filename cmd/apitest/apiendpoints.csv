@@ -1,4 +1,6 @@
 id,name,description,uri
-1,google,www.google.com,http://www.google.com/
-2,yahoo,www.yahoo.co.jp,https://www.yahoo.co.jp/
-3,bing,www.bing.com,https://www.bing.com/
+1,google,www.google.com,http://www.google.com
+2,yahoo,www.yahoo.co.jp,https://www.yahoo.co.jp
+3,bing,www.bing.com,https://www.bing.com
+4,google,google(Moved Permanently),http://google.com
+5,aws,aws console,https://console.aws.amazon.com/console/home

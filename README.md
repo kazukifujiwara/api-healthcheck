@@ -99,6 +99,11 @@ csvtest
 go csvtest/main.go 実行時にcsvファイルを読み込む場合のパスは```csvtest/file.csv``` となり、
 csvtestディレクトリ内で go run main.go 実行時にcsvファイルを読み込む場合```file.csv```となる。
 
+## TODO
+
+* リファクタリング
+* Readme整理
+
 ## References
 
 * [Go言語(golang)でcsvの読み書き Reader/Writer](https://golang.hateblo.jp/entry/golang-encoding-csv)
@@ -109,3 +114,8 @@ csvtestディレクトリ内で go run main.go 実行時にcsvファイルを読
 * [Goのforとgoroutineでやりがちなミスとたった一つの冴えたgo vetと](https://qiita.com/sudix/items/67d4cad08fe88dcb9a6d)
 * [サンプルで学ぶ Go 言語：JSON](https://www.spinute.org/go-by-example/json.html)
 * [並行で発行したgoroutineをまとめ上げる処理](https://gist.github.com/paperlefthand/55c8147d5ebe7a243e9f65191be1d282)
+* [Go+GinでCors設定を行い、クロスオリジンのアクセスを制御する](https://ti-tomo-knowledge.hatenablog.com/entry/2020/06/15/213401)
+ * flaskからgoのAPIを呼び出そうとしたときに403:forbiddenとなったので参照した
+* [Go gin framework CORS](https://stackoverflow.com/questions/29418478/go-gin-framework-cors)
+ * AllowOriginsでアスタリスクも使える
+* [HTTP response status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)

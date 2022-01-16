@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block headline %}
+{{ headline }}
+{% endblock %}
+
+{% block content %}
+<div class="mb-3" id="msg">{{ message }}</div>
+
+<!-- Vue.js container -->
+<div id="app" class="m-3">
+    {% raw %}
+    <mycomp />
+    {% endraw %}
+</div>
+
+<!-- mycomp's template -->
+{% raw %}
+<script type="text/x-template" id="mycomp-template">
+    <div class="container-fluid">
+        <div id="ApiStatusSection" class="col-md-12 col-sm-12 col-xs-12">
+            <h2>Result</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">URI</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in data.data">
+                        <th scope="row">{{item.Id}}</th>
+                        <td>{{item.Name}}</td>
+                        <td>{{item.Description}}</td>
+                        <td>{{item.Uri}}</td>
+                        <td>
+                            <!-- 0: Unknown(default value) -->
+                            <span class="badge bg-dark" v-if="0 <= item.Status && item.Status < 100">{{item.Status}}</span>
+                            <span v-if="0 <= item.Status && item.Status < 100"> Unknown</span>
+
+                            <!-- 100~199: Informational responses -->
+                            <span class="badge bg-secondary" v-if="100 <= item.Status && item.Status < 200">{{item.Status}}</span>
+                            <span v-if="100 <= item.Status && item.Status < 200"> Informational responses</span>
+
+                            <!-- 200~299: Successful responses -->
+                            <span class="badge bg-success" v-if="200 <= item.Status && item.Status < 300">{{item.Status}}</span>
+                            <span v-if="200 <= item.Status && item.Status < 300"> Successful responses</span>
+
+                            <!-- 300~399: Redirection messages -->
+                            <span class="badge bg-primary" v-if="300 <= item.Status && item.Status < 400">{{item.Status}}</span>
+                            <span v-if="300 <= item.Status && item.Status < 400"> Redirection messages</span>
+
+                            <!-- 400~499: Client error responses -->
+                            <span class="bg-danger" v-if="400 <= item.Status && item.Status < 500">{{item.Status}}</span>
+                            <span v-if="400 <= item.Status && item.Status < 500"> Client error responses</span>
+
+                            <!-- 500~599: Server error responses -->
+                            <span class="bg-danger" v-if="500 <= item.Status && item.Status < 600">{{item.Status}}</span>
+                            <span v-if="500 <= item.Status && item.Status < 600"> Server error responses</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</script>
+{% endraw %}
+
+<!-- Vue.js script -->
+<script>
+// mycomp object
+Vue.component('mycomp', {
+    template: '#mycomp-template',
+    data:function(){
+        return {
+            data: []
+        }
+    },
+    methods:{
+        getdata: function() {
+            let self = this;
+            $.get("http://localhost:8080/apiStatusCheck", function(data) {
+                self.data = eval(data);
+            });  
+        },
+    },
+    created: function() {
+        this.getdata()
+    }
+});
+
+// start vue.
+new Vue({
+    el:'#app',
+});
+</script>
+{% endblock %} 
+
+<!-- {% block footer %}
+{% endblock %}  -->
